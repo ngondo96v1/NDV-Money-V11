@@ -7,6 +7,10 @@ import Dashboard from './components/Dashboard';
 import LoanApplication from './components/LoanApplication';
 import RankLimits from './components/RankLimits';
 import Profile from './components/Profile';
+import SecurityModal from './components/SecurityModal';
+import TermsModal from './components/TermsModal';
+import BankInfoModal from './components/BankInfoModal';
+import EditProfileModal from './components/EditProfileModal';
 import AdminDashboard from './components/AdminDashboard';
 import AdminUserManagement from './components/AdminUserManagement';
 import AdminBudget from './components/AdminBudget';
@@ -118,6 +122,10 @@ const App: React.FC = () => {
   const lastSyncTimestamp = useRef<number>(0);
   const socketRef = useRef<Socket | null>(null);
   const [isTabActive, setIsTabActive] = useState(true);
+  const [showSecurityModal, setShowSecurityModal] = useState(false);
+  const [showTermsModal, setShowTermsModal] = useState(false);
+  const [showBankInfoModal, setShowBankInfoModal] = useState(false);
+  const [showEditProfileModal, setShowEditProfileModal] = useState(false);
 
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -1738,6 +1746,10 @@ const App: React.FC = () => {
             onUpdateBank={handleUpdateBank}
             onUpdateProfile={handleUpdateProfile}
             onRefresh={() => fetchFullData(true)}
+            onShowSecurity={() => setShowSecurityModal(true)}
+            onShowTerms={() => setShowTermsModal(true)}
+            onShowBankInfo={() => setShowBankInfoModal(true)}
+            onShowEditProfile={() => setShowEditProfileModal(true)}
           />
         );
       case AppView.ADMIN_DASHBOARD: return <AdminDashboard user={user} loans={loans} registeredUsersCount={registeredUsers.length} systemBudget={systemBudget} rankProfit={rankProfit} loanProfit={loanProfit} monthlyStats={monthlyStats} lastKeepAlive={lastKeepAlive} onResetRankProfit={handleResetRankProfit} onResetLoanProfit={handleResetLoanProfit} onNavigateToUsers={() => setCurrentView(AppView.ADMIN_USERS)} onLogout={handleLogout} onRefresh={() => fetchFullData(true)} />;
@@ -1988,6 +2000,31 @@ const App: React.FC = () => {
               </>
             )}
           </div>
+        )}
+
+        {/* Global Modals */}
+        {showSecurityModal && (
+          <SecurityModal 
+            user={user}
+            onClose={() => setShowSecurityModal(false)} 
+            onLogout={handleLogout} 
+            onUpdatePassword={(newPass) => handleUpdateProfile({ password: newPass })}
+          />
+        )}
+        {showTermsModal && <TermsModal onClose={() => setShowTermsModal(false)} />}
+        {showBankInfoModal && (
+          <BankInfoModal 
+            user={user} 
+            onClose={() => setShowBankInfoModal(false)} 
+            onUpdate={handleUpdateBank} 
+          />
+        )}
+        {showEditProfileModal && (
+          <EditProfileModal 
+            user={user} 
+            onClose={() => setShowEditProfileModal(false)} 
+            onUpdate={handleUpdateProfile} 
+          />
         )}
       </div>
     </ErrorBoundary>

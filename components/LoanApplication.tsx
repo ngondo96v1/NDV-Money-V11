@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { User, LoanRecord } from '../types';
-import { Wallet, X, Eye, FileText, CheckCircle2, ShieldCheck, Eraser, ChevronLeft, CreditCard, Copy, Camera, UploadCloud, CircleHelp, Info, Award, Landmark, FileCheck, AlertCircle, AlertTriangle, ArrowDownToLine, ShieldAlert, ChevronRight, History, Calendar } from 'lucide-react';
+import { Wallet, X, Eye, FileText, CheckCircle2, ShieldCheck, Eraser, ChevronLeft, CreditCard, Copy, Camera, UploadCloud, CircleHelp, Info, Award, Landmark, FileCheck, AlertCircle, AlertTriangle, ArrowDownToLine, ShieldAlert, ChevronRight, History, Calendar, Scale } from 'lucide-react';
 import ContractModal from './ContractModal';
 import { compressImage, generateContractId, uploadToImgBB } from '../utils';
 
@@ -645,66 +645,86 @@ const LoanApplication: React.FC<LoanApplicationProps> = ({ user, loans, systemBu
     const isLimitedByBudget = systemBudget < userAvailableBalance;
 
     return (
-      <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-5 animate-in fade-in duration-300 overflow-y-auto">
-        <div className="bg-[#111111] w-full max-w-sm rounded-3xl border border-white/10 p-5 space-y-6 relative shadow-2xl my-auto">
-          <button onClick={() => setStep(LoanStep.LIST)} className="absolute right-4 top-4 text-gray-500 hover:text-white p-2">
+      <div className="fixed inset-0 z-[100] bg-black flex flex-col animate-in fade-in slide-in-from-bottom-10 duration-500 overflow-hidden">
+        <div className="w-full p-3 flex items-center justify-between bg-black text-white border-b border-white/5 flex-none">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 bg-orange-500/10 rounded-lg flex items-center justify-center text-[#ff8c00]">
+              <Award size={16} />
+            </div>
+            <div>
+              <h3 className="text-[9px] font-black uppercase tracking-widest leading-none">Đăng ký khoản vay</h3>
+              <p className="text-[6px] font-bold text-gray-500 uppercase mt-0.5 tracking-tighter">XÁC THỰC ĐIỆN TỬ NDV-SAFE</p>
+            </div>
+          </div>
+          <button 
+            onClick={() => setStep(LoanStep.LIST)}
+            className="w-7 h-7 bg-white/5 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition-all active:scale-90"
+          >
             <X size={16} />
           </button>
-          <div className="space-y-1 text-center">
-            <h3 className="text-[9px] font-black text-gray-400 uppercase tracking-[0.2em]">Chọn số tiền vay</h3>
-            <p className="text-2xl font-black text-[#ff8c00] tracking-tighter">
-              {selectedAmount.toLocaleString()} <span className="text-sm">đ</span>
-            </p>
-            <p className="text-[8px] font-black text-orange-500 uppercase tracking-widest">Lãi suất 0% (Ưu đãi cho thành viên mới)</p>
-          </div>
+        </div>
 
-          {isLimitedByBudget && (
-            <div className="bg-red-500/10 border border-red-500/20 p-3 rounded-2xl animate-in zoom-in duration-300 flex flex-col items-center text-center">
-               <div className="flex items-center gap-1.5 mb-0.5">
-                  <AlertCircle size={12} className="text-red-500" />
-                  <span className="text-[8px] font-black text-red-500 uppercase">Nguồn vốn giới hạn</span>
-               </div>
-               <p className="text-[7px] font-black text-gray-400 uppercase tracking-tighter">
-                 Tối đa {systemBudget.toLocaleString()} đ. Hạn mức sẽ mở lại sau khi nạp vốn.
-               </p>
+        <div className="flex-1 bg-black px-2 pt-1 pb-2 overflow-hidden flex flex-col">
+          <div className="bg-[#111111] w-full rounded-2xl p-4 relative overflow-hidden shadow-2xl border border-white/10 flex-1 flex flex-col justify-center space-y-8">
+            <div className="space-y-2 text-center">
+              <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Chọn số tiền vay</h3>
+              <p className="text-4xl font-black text-[#ff8c00] tracking-tighter">
+                {selectedAmount.toLocaleString()} <span className="text-lg">đ</span>
+              </p>
+              <p className="text-[9px] font-black text-orange-500 uppercase tracking-widest">Lãi suất 0% (Ưu đãi thành viên)</p>
             </div>
-          )}
 
-          <div className="space-y-6 px-1">
-            <div className="relative pt-4 pb-1">
-              <input
-                type="range"
-                min="1000000"
-                max={Math.min(10000000 - currentCycleTotal, actualMaxAllowed)}
-                step="1000000"
-                value={selectedAmount}
-                onChange={handleSliderChange}
-                className="w-full h-1.5 bg-gray-800 rounded-full appearance-none cursor-pointer accent-[#ff8c00] focus:outline-none"
-              />
-              <div className="flex justify-between mt-4">
-                <div className="flex flex-col items-start gap-0.5">
-                  <span className="text-[8px] font-black text-gray-500 uppercase">Min</span>
-                  <span className="text-[9px] font-black text-white">1.000.000 đ</span>
-                </div>
-                <div className="flex flex-col items-end gap-0.5">
-                  <span className={`text-[8px] font-black uppercase ${isLimitedByBudget ? 'text-red-500' : 'text-orange-500/50'}`}>
-                    {isLimitedByBudget ? 'Ngân sách hệ thống' : 'Hạn mức khả dụng'}
-                  </span>
-                  <span className={`text-[9px] font-black ${isLimitedByBudget ? 'text-red-500' : 'text-[#ff8c00]'}`}>
-                    {Math.min(10000000 - currentCycleTotal, actualMaxAllowed).toLocaleString()} đ
-                  </span>
+            {isLimitedByBudget && (
+              <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-2xl animate-in zoom-in duration-300 flex flex-col items-center text-center">
+                 <div className="flex items-center gap-1.5 mb-1">
+                    <AlertCircle size={14} className="text-red-500" />
+                    <span className="text-[9px] font-black text-red-500 uppercase">Nguồn vốn giới hạn</span>
+                 </div>
+                 <p className="text-[8px] font-black text-gray-400 uppercase tracking-tighter">
+                   Tối đa {systemBudget.toLocaleString()} đ. Hạn mức sẽ mở lại sau khi nạp vốn.
+                 </p>
+              </div>
+            )}
+
+            <div className="space-y-8 px-2">
+              <div className="relative pt-4 pb-1">
+                <input
+                  type="range"
+                  min="1000000"
+                  max={Math.min(10000000 - currentCycleTotal, actualMaxAllowed)}
+                  step="1000000"
+                  value={selectedAmount}
+                  onChange={handleSliderChange}
+                  className="w-full h-2 bg-gray-800 rounded-full appearance-none cursor-pointer accent-[#ff8c00] focus:outline-none"
+                />
+                <div className="flex justify-between mt-6">
+                  <div className="flex flex-col items-start gap-1">
+                    <span className="text-[9px] font-black text-gray-500 uppercase tracking-widest">Tối thiểu</span>
+                    <span className="text-[11px] font-black text-white">1.000.000 đ</span>
+                  </div>
+                  <div className="flex flex-col items-end gap-1">
+                    <span className={`text-[9px] font-black uppercase tracking-widest ${isLimitedByBudget ? 'text-red-500' : 'text-orange-500/50'}`}>
+                      {isLimitedByBudget ? 'Ngân sách hệ thống' : 'Hạn mức khả dụng'}
+                    </span>
+                    <span className={`text-[11px] font-black ${isLimitedByBudget ? 'text-red-500' : 'text-[#ff8c00]'}`}>
+                      {Math.min(10000000 - currentCycleTotal, actualMaxAllowed).toLocaleString()} đ
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="sticky bottom-0 left-0 right-0 p-3 bg-black flex gap-2 z-[110] border-t border-white/5 mt-auto">
           <button
             disabled={actualMaxAllowed < 1000000}
             onClick={() => { setStep(LoanStep.CONTRACT); setSignatureData(null); }}
-            className={`w-full font-black py-4 rounded-2xl text-xs uppercase tracking-[0.2em] shadow-xl active:scale-95 transition-all ${
-              actualMaxAllowed < 1000000 ? 'bg-gray-800 text-gray-600 cursor-not-allowed' : 'bg-[#ff8c00] text-black shadow-orange-950/20'
+            className={`w-full font-black py-4 rounded-xl text-[10px] uppercase tracking-[0.2em] shadow-xl active:scale-95 transition-all ${
+              actualMaxAllowed < 1000000 ? 'bg-white/5 text-gray-600 cursor-not-allowed opacity-50' : 'bg-[#ff8c00] text-black shadow-orange-950/20'
             }`}
           >
-            {actualMaxAllowed < 1000000 ? 'KHÔNG ĐỦ NGÂN SÁCH' : 'TIẾP TỤC'}
+            {actualMaxAllowed < 1000000 ? 'KHÔNG ĐỦ NGÂN SÁCH' : 'TIẾP TỤC ĐẾN HỢP ĐỒNG'}
           </button>
         </div>
       </div>
@@ -729,8 +749,8 @@ const LoanApplication: React.FC<LoanApplicationProps> = ({ user, loans, systemBu
     const qrUrl = `https://img.vietqr.io/image/970454-0877203996-compact2.png?amount=${currentAmount}&addInfo=${encodeURIComponent(content)}&accountName=${encodeURIComponent('DO TRUNG NGON')}`;
 
     return (
-      <div className="fixed inset-0 z-[100] bg-black animate-in slide-in-from-right duration-300 flex flex-col p-4 overflow-hidden">
-        <div className="flex items-center justify-between mb-3 flex-none">
+      <div className="fixed inset-0 z-[100] bg-black flex flex-col animate-in fade-in slide-in-from-bottom-10 duration-500 overflow-hidden">
+        <div className="w-full p-3 flex items-center justify-between bg-black text-white border-b border-white/5 flex-none">
           <div className="flex items-center gap-2">
             <button 
               onClick={() => {
@@ -740,239 +760,227 @@ const LoanApplication: React.FC<LoanApplicationProps> = ({ user, loans, systemBu
                   setStep(LoanStep.LIST);
                 }
               }} 
-              className="w-8 h-8 bg-white/5 rounded-full flex items-center justify-center text-white active:scale-90 transition-all"
+              className="w-7 h-7 bg-white/5 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition-all active:scale-90"
             >
               <ChevronLeft size={16} />
             </button>
-            <h2 className="text-xs font-black text-white uppercase tracking-tight">Tất toán khoản vay</h2>
+            <div>
+              <h3 className="text-[9px] font-black uppercase tracking-widest leading-none">Tất toán khoản vay</h3>
+              <p className="text-[6px] font-bold text-gray-500 uppercase mt-0.5 tracking-tighter">XÁC THỰC GIAO DỊCH NDV-SAFE</p>
+            </div>
           </div>
-          <button onClick={() => setShowHelp(!showHelp)} className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${showHelp ? 'bg-[#ff8c00] text-black shadow-lg shadow-orange-500/20' : 'bg-white/5 text-gray-400'}`}><CircleHelp size={18} /></button>
+          <button 
+            onClick={() => setShowHelp(!showHelp)} 
+            className={`w-7 h-7 rounded-full flex items-center justify-center transition-all ${showHelp ? 'bg-[#ff8c00] text-black shadow-lg shadow-orange-500/20' : 'bg-white/5 text-gray-400'}`}
+          >
+            <CircleHelp size={16} />
+          </button>
         </div>
 
-        {/* Settlement Type Selection */}
-        <div className="flex gap-1.5 mb-3 flex-none">
-          {['ALL', 'PARTIAL', 'PRINCIPAL']
-            .filter(type => !(type === 'PARTIAL' && settleLoan.amount <= 1000000))
-            .map((type) => {
-            const label = type === 'ALL' ? 'Tất Toán' : type === 'PARTIAL' ? '1 Phần' : `Gia hạn ${principalCount > 0 ? `(${principalCount}/2)` : ''}`;
-            const disabled = type === 'PRINCIPAL' && !canSettlePrincipal;
-            const active = settleType === type;
-            
-            return (
-              <button 
-                key={type}
-                disabled={disabled}
-                onClick={() => {
-                  if (settleType !== type) {
-                    setSettleType(type as any);
-                    setQrLoading(true);
-                  }
-                }}
-                className={`flex-1 py-2.5 rounded-xl font-black text-[9px] uppercase tracking-widest transition-all border ${
-                  active 
-                    ? 'bg-[#ff8c00] text-black border-[#ff8c00] shadow-lg shadow-orange-500/20' 
-                    : disabled
-                      ? 'bg-gray-800 text-gray-700 border-white/5 cursor-not-allowed'
-                      : 'bg-white/5 text-gray-500 border-white/5'
-                }`}
-              >
-                {label}
-              </button>
-            );
-          })}
-        </div>
-
-        {settleType === 'PARTIAL' && (
-          <div className="mb-2 bg-[#111111] border border-white/10 rounded-2xl p-2.5 animate-in slide-in-from-top-2 duration-300 shadow-xl flex-none">
-            <div className="flex items-center justify-between mb-1.5 px-1">
-              <span className="text-[8px] font-black text-gray-400 uppercase tracking-widest">Số tiền gốc trả</span>
-              <span className="text-[10px] font-black text-[#ff8c00]">{partialAmount.toLocaleString()} đ</span>
+        <div className="flex-1 bg-black px-2 pt-1 pb-2 overflow-hidden flex flex-col">
+          <div className="bg-[#111111] w-full rounded-2xl p-3 relative overflow-hidden shadow-2xl border border-white/10 flex-1 flex flex-col">
+            <div className="flex-none mb-3">
+              <div className="flex bg-black/40 p-1 rounded-xl border border-white/5">
+                {[
+                  { id: 'ALL', label: 'Tất toán', icon: <Scale size={12} /> },
+                  { id: 'PARTIAL', label: '1 Phần', icon: <Award size={12} /> },
+                  { id: 'PRINCIPAL', label: 'Gia hạn', icon: <ShieldCheck size={12} /> }
+                ].map((type) => {
+                  const isDisabled = type.id === 'PRINCIPAL' && !canSettlePrincipal;
+                  return (
+                    <button
+                      key={type.id}
+                      disabled={isDisabled}
+                      onClick={() => setSettleType(type.id as any)}
+                      className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg transition-all ${
+                        settleType === type.id 
+                          ? 'bg-[#ff8c00] text-black font-black shadow-lg shadow-orange-500/20' 
+                          : isDisabled ? 'opacity-20 cursor-not-allowed' : 'text-gray-500 hover:text-white'
+                      }`}
+                    >
+                      {type.icon}
+                      <span className="text-[8px] font-black uppercase tracking-widest">{type.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-            <div className="px-1">
-              <input
-                type="range"
-                min="1000000"
-                max={Math.max(1000000, Math.min(9000000, settleLoan.amount - 1000000))}
-                step="1000000"
-                value={partialAmount}
-                onChange={(e) => {
-                  setPartialAmount(parseInt(e.target.value));
-                  setQrLoading(true);
-                }}
-                className="w-full h-1 bg-gray-800 rounded-full appearance-none cursor-pointer accent-[#ff8c00] focus:outline-none"
-              />
-            </div>
-          </div>
-        )}
 
-        {isSecondPrincipal && settleType === 'PRINCIPAL' && (
-          <div className="mb-1.5 bg-orange-500/10 border border-orange-500/20 rounded-xl py-1.5 px-2 flex items-center justify-center animate-in slide-in-from-top-2 duration-300">
-            <p className="text-[7px] font-black text-orange-200 uppercase tracking-tighter text-center">
-              Lần gia hạn cuối, vui lòng tất toán ở kỳ sau.
-            </p>
-          </div>
-        )}
-
-        {!canSettlePrincipal && (
-          <div className="mb-1.5 bg-red-500/10 border border-red-500/20 rounded-xl p-1.5 flex items-center justify-center animate-in slide-in-from-top-2 duration-300">
-            <p className="text-[8px] font-black text-red-200 uppercase tracking-wider text-center">
-              Đã hết lượt gia hạn cho khoản vay này.
-            </p>
-          </div>
-        )}
-        
-
-        <div className="flex-1 min-h-0 space-y-1.5 flex flex-col">
-          {showHelp ? (
-            <div className="h-full bg-[#ff8c00]/5 border border-[#ff8c00]/20 rounded-2xl p-3 animate-in fade-in zoom-in duration-300 space-y-2 overflow-y-auto custom-scrollbar">
-               <div className="flex items-center gap-2">
-                  <Info size={12} className="text-[#ff8c00]" />
-                  <span className="text-[9px] font-black text-[#ff8c00] uppercase tracking-widest">Hướng dẫn tất toán</span>
-               </div>
-               <div className="space-y-1.5">
-                  {[
-                    "Chọn Tất Toán hoặc Gia hạn để tiếp tục.",
-                    "Chuyển khoản đúng Số tiền và Nội dung theo mã QR.",
-                    "Nhập chính xác Mã giao dịch (FT...) để đối soát.",
-                    "Tải ảnh Biên lai rõ nét để Admin xác nhận."
-                  ].map((text, idx) => (
-                    <div key={idx} className="flex gap-2">
-                      <div className="w-3.5 h-3.5 bg-[#ff8c00] rounded-full flex items-center justify-center shrink-0 font-black text-[8px] text-black">{idx + 1}</div>
-                      <p className="text-[8px] font-bold text-gray-300 leading-tight">{text}</p>
-                    </div>
-                  ))}
-               </div>
-            </div>
-          ) : (
-            <>
-            <div className="bg-[#111111] border border-white/10 rounded-3xl p-4 space-y-4 shadow-2xl flex-1 overflow-y-auto custom-scrollbar animate-in fade-in duration-500">
-                {/* QR & Bank Info Part */}
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1.5">
-                      <Landmark size={14} className="text-[#ff8c00]" />
-                      <h3 className="text-[9px] font-black uppercase tracking-widest text-white">Thông tin thanh toán</h3>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <div className="w-1 h-1 bg-green-500 rounded-full animate-pulse"></div>
-                      <span className="text-[6px] font-black text-green-500 uppercase">Hệ thống tự động</span>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-4">
-                    <div className="flex flex-col items-center gap-2 shrink-0">
-                      <div className="w-32 h-32 bg-white rounded-2xl p-2 shadow-inner relative overflow-hidden">
-                        <img 
-                          src={qrUrl} 
-                          alt="VietQR" 
-                          className={`w-full h-full object-contain transition-opacity duration-300 ${qrLoading ? 'opacity-0' : 'opacity-100'}`} 
-                          onLoad={() => setQrLoading(false)}
-                        />
-                        {qrLoading && (
-                          <div className="absolute inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm">
-                            <div className="w-5 h-5 border-2 border-[#ff8c00] border-t-transparent rounded-full animate-spin"></div>
-                          </div>
-                        )}
-                      </div>
-                      <button 
-                        onClick={() => handleDownloadQR(qrUrl)}
-                        className="flex items-center gap-1 px-3 py-1 bg-white/5 rounded-lg border border-white/10 active:bg-white/10 transition-all w-full justify-center"
-                      >
-                        <ArrowDownToLine size={12} className="text-[#ff8c00]" />
-                        <span className="text-[7px] font-black text-gray-400 uppercase">Lưu QR</span>
-                      </button>
-                    </div>
-
-                    <div className="flex-1 space-y-1.5">
+            <div className="flex-1 min-h-0 space-y-1.5 flex flex-col">
+              {showHelp ? (
+                <div className="h-full bg-[#ff8c00]/5 border border-[#ff8c00]/20 rounded-2xl p-3 animate-in fade-in zoom-in duration-300 space-y-2 overflow-y-auto custom-scrollbar">
+                   <div className="flex items-center gap-2">
+                      <Info size={12} className="text-[#ff8c00]" />
+                      <span className="text-[9px] font-black text-[#ff8c00] uppercase tracking-widest">Hướng dẫn tất toán</span>
+                   </div>
+                   <div className="space-y-1.5">
                       {[
-                        { label: 'Ngân hàng', value: 'BVBANK TIMO', copy: false },
-                        { label: 'Số tài khoản', value: '0877203996', copy: true },
-                        { label: 'Số tiền', value: `${currentAmount.toLocaleString()} đ`, copy: true, rawValue: currentAmount.toString() },
-                        { label: 'Nội dung', value: content, copy: true, highlight: true }
-                      ].map((item, i) => (
-                        <div 
-                          key={i} 
-                          onClick={() => item.copy && copyToClipboard(item.rawValue || item.value)}
-                          className={`bg-black/40 p-1.5 rounded-xl border border-white/5 flex items-center justify-between group transition-all ${item.copy ? 'active:bg-black/60 cursor-pointer' : ''}`}
-                        >
-                          <div className="min-w-0 flex-1">
-                            <p className="text-[6px] font-bold text-gray-500 uppercase leading-none mb-1">{item.label}</p>
-                            <p className={`text-[9px] font-black leading-none truncate ${item.highlight ? 'text-[#ff8c00]' : 'text-white'}`}>{item.value}</p>
-                          </div>
-                          {item.copy && <Copy size={10} className="text-[#ff8c00] opacity-40 group-hover:opacity-100 transition-all shrink-0 ml-2" />}
+                        "Chọn Tất Toán hoặc Gia hạn để tiếp tục.",
+                        "Chuyển khoản đúng Số tiền và Nội dung theo mã QR.",
+                        "Nhập chính xác Mã giao dịch (FT...) để đối soát.",
+                        "Tải ảnh Biên lai rõ nét để Admin xác nhận."
+                      ].map((text, idx) => (
+                        <div key={idx} className="flex gap-2">
+                          <div className="w-3.5 h-3.5 bg-[#ff8c00] rounded-full flex items-center justify-center shrink-0 font-black text-[8px] text-black">{idx + 1}</div>
+                          <p className="text-[8px] font-bold text-gray-300 leading-tight">{text}</p>
                         </div>
                       ))}
-                    </div>
-                  </div>
+                   </div>
                 </div>
+              ) : (
+                <div className="flex-1 flex flex-col space-y-3 overflow-y-auto custom-scrollbar pr-1">
+                    {/* Partial Amount Slider - Merged into the same frame */}
+                    {settleType === 'PARTIAL' && (
+                      <div className="space-y-2.5 pb-2 border-b border-white/5">
+                        <div className="flex items-center justify-between px-1">
+                          <span className="text-[8px] font-black text-gray-400 uppercase tracking-widest">Số tiền gốc trả</span>
+                          <span className="text-[10px] font-black text-[#ff8c00]">{partialAmount.toLocaleString()} đ</span>
+                        </div>
+                        <div className="px-1">
+                          <input
+                            type="range"
+                            min="1000000"
+                            max={Math.max(1000000, Math.min(9000000, settleLoan.amount - 1000000))}
+                            step="1000000"
+                            value={partialAmount}
+                            onChange={(e) => {
+                              setPartialAmount(parseInt(e.target.value));
+                              setQrLoading(true);
+                            }}
+                            className="w-full h-1 bg-gray-800 rounded-full appearance-none cursor-pointer accent-[#ff8c00] focus:outline-none"
+                          />
+                        </div>
+                      </div>
+                    )}
 
-                <div className="h-px bg-white/5 w-full"></div>
+                    {/* QR & Bank Info Part */}
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-1.5">
+                          <Landmark size={14} className="text-[#ff8c00]" />
+                          <h3 className="text-[9px] font-black uppercase tracking-widest text-white">Thông tin thanh toán</h3>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1 h-1 bg-green-500 rounded-full animate-pulse"></div>
+                          <span className="text-[6px] font-black text-green-500 uppercase">Hệ thống tự động</span>
+                        </div>
+                      </div>
 
-                {/* Verification Part */}
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1.5">
-                      <Camera size={14} className="text-[#ff8c00]" />
-                      <h3 className="text-[9px] font-black uppercase tracking-widest text-white">Xác nhận giao dịch</h3>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 gap-3">
-                    <div className="space-y-1.5">
-                      <p className="text-[7px] font-black text-gray-500 uppercase tracking-widest ml-1">Biên lai chuyển khoản</p>
-                      <div 
-                        onClick={() => document.getElementById('billInputSettle')?.click()}
-                        className={`h-[80px] rounded-2xl border-2 border-dashed flex flex-col items-center justify-center gap-2 cursor-pointer relative overflow-hidden transition-all ${billImage ? 'border-green-500 bg-green-500/5' : 'border-white/5 bg-black hover:border-[#ff8c00]/30'}`}
-                      >
-                        <input id="billInputSettle" type="file" accept="image/*" hidden onChange={handleBillUpload} />
-                        {billImage ? (
-                          <>
-                            <img src={billImage} className="absolute inset-0 w-full h-full object-cover opacity-20" />
-                            <CheckCircle2 size={24} className="text-green-500 relative z-10" />
-                            <span className="text-[8px] font-black text-green-500 uppercase relative z-10">Đã tải biên lai</span>
-                          </>
-                        ) : (
-                          <>
-                            {isUploading ? (
-                              <div className="animate-spin border-2 border-[#ff8c00] border-t-transparent w-6 h-6 rounded-full" />
-                            ) : (
-                              <UploadCloud size={24} className="text-gray-600" />
+                      <div className="flex gap-4">
+                        <div className="flex flex-col items-center gap-2 shrink-0">
+                          <div className="w-32 h-32 bg-white rounded-2xl p-2 shadow-inner relative overflow-hidden">
+                            <img 
+                              src={qrUrl} 
+                              alt="VietQR" 
+                              className={`w-full h-full object-contain transition-opacity duration-300 ${qrLoading ? 'opacity-0' : 'opacity-100'}`} 
+                              onLoad={() => setQrLoading(false)}
+                            />
+                            {qrLoading && (
+                              <div className="absolute inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm">
+                                <div className="w-5 h-5 border-2 border-[#ff8c00] border-t-transparent rounded-full animate-spin"></div>
+                              </div>
                             )}
-                            <span className="text-[8px] font-black text-gray-600 uppercase">Tải lên biên lai</span>
-                          </>
-                        )}
+                          </div>
+                          <button 
+                            onClick={() => handleDownloadQR(qrUrl)}
+                            className="flex items-center gap-1 px-3 py-1 bg-white/5 rounded-lg border border-white/10 active:bg-white/10 transition-all w-full justify-center"
+                          >
+                            <ArrowDownToLine size={12} className="text-[#ff8c00]" />
+                            <span className="text-[7px] font-black text-gray-400 uppercase">Lưu QR</span>
+                          </button>
+                        </div>
+
+                        <div className="flex-1 space-y-1.5">
+                          {[
+                            { label: 'Ngân hàng', value: 'BVBANK TIMO', copy: false },
+                            { label: 'Số tài khoản', value: '0877203996', copy: true },
+                            { label: 'Số tiền', value: `${currentAmount.toLocaleString()} đ`, copy: true, rawValue: currentAmount.toString() },
+                            { label: 'Nội dung', value: content, copy: true, highlight: true }
+                          ].map((item, i) => (
+                            <div 
+                              key={i} 
+                              onClick={() => item.copy && copyToClipboard(item.rawValue || item.value)}
+                              className={`bg-black/40 p-1.5 rounded-xl border border-white/5 flex items-center justify-between group transition-all ${item.copy ? 'active:bg-black/60 cursor-pointer' : ''}`}
+                            >
+                              <div className="min-w-0 flex-1">
+                                <p className="text-[6px] font-bold text-gray-500 uppercase leading-none mb-1">{item.label}</p>
+                                <p className={`text-[9px] font-black leading-none truncate ${item.highlight ? 'text-[#ff8c00]' : 'text-white'}`}>{item.value}</p>
+                              </div>
+                              {item.copy && <Copy size={10} className="text-[#ff8c00] opacity-40 group-hover:opacity-100 transition-all shrink-0 ml-2" />}
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
 
-                    <div className="space-y-1.5">
-                      <p className="text-[7px] font-black text-gray-500 uppercase tracking-widest ml-1">Mã giao dịch (FT...)</p>
-                      <div className="relative">
-                        <input 
-                          type="text" 
-                          value={bankTransactionId}
-                          onChange={(e) => setBankTransactionId(e.target.value)}
-                          placeholder="Nhập mã giao dịch ngân hàng"
-                          className={`w-full bg-black border rounded-xl py-2.5 px-4 text-[11px] font-bold text-white focus:outline-none transition-all placeholder:text-gray-700 ${
-                            isDuplicateTransaction ? 'border-red-500' : 'border-white/10 focus:border-[#ff8c00]/50'
-                          }`}
-                        />
-                        {isDuplicateTransaction && (
-                          <div className="absolute -bottom-4 left-1 text-[7px] font-black text-red-500 uppercase">Mã này đã được sử dụng!</div>
-                        )}
+                    <div className="h-px bg-white/5 w-full"></div>
+
+                    {/* Verification Part */}
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-1.5">
+                          <Camera size={14} className="text-[#ff8c00]" />
+                          <h3 className="text-[9px] font-black uppercase tracking-widest text-white">Xác nhận giao dịch</h3>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 gap-3">
+                        <div className="space-y-1.5">
+                          <p className="text-[7px] font-black text-gray-500 uppercase tracking-widest ml-1">Biên lai chuyển khoản</p>
+                          <div 
+                            onClick={() => document.getElementById('billInputSettle')?.click()}
+                            className={`h-[80px] rounded-2xl border-2 border-dashed flex flex-col items-center justify-center gap-2 cursor-pointer relative overflow-hidden transition-all ${billImage ? 'border-green-500 bg-green-500/5' : 'border-white/5 bg-black hover:border-[#ff8c00]/30'}`}
+                          >
+                            <input id="billInputSettle" type="file" accept="image/*" hidden onChange={handleBillUpload} />
+                            {billImage ? (
+                              <>
+                                <img src={billImage} className="absolute inset-0 w-full h-full object-cover opacity-20" />
+                                <CheckCircle2 size={24} className="text-green-500 relative z-10" />
+                                <span className="text-[8px] font-black text-green-500 uppercase relative z-10">Đã tải biên lai</span>
+                              </>
+                            ) : (
+                              <>
+                                {isUploading ? (
+                                  <div className="animate-spin border-2 border-[#ff8c00] border-t-transparent w-6 h-6 rounded-full" />
+                                ) : (
+                                  <UploadCloud size={24} className="text-gray-600" />
+                                )}
+                                <span className="text-[8px] font-black text-gray-600 uppercase">Tải lên biên lai</span>
+                              </>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <p className="text-[7px] font-black text-gray-500 uppercase tracking-widest ml-1">Mã giao dịch (FT...)</p>
+                          <div className="relative">
+                            <input 
+                              type="text" 
+                              value={bankTransactionId}
+                              onChange={(e) => setBankTransactionId(e.target.value)}
+                              placeholder="Nhập mã giao dịch ngân hàng"
+                              className={`w-full bg-black border rounded-xl py-2.5 px-4 text-[11px] font-bold text-white focus:outline-none transition-all placeholder:text-gray-700 ${
+                                isDuplicateTransaction ? 'border-red-500' : 'border-white/10 focus:border-[#ff8c00]/50'
+                              }`}
+                            />
+                            {isDuplicateTransaction && (
+                              <div className="absolute -bottom-4 left-1 text-[7px] font-black text-red-500 uppercase">Mã này đã được sử dụng!</div>
+                            )}
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
                 </div>
-              </div>
-            </>
-          )}
+              )}
+            </div>
+          </div>
         </div>
 
-        <div className="mt-1 flex-none">
+        <div className="sticky bottom-0 left-0 right-0 p-3 bg-black flex gap-2 z-[110] border-t border-white/5 mt-auto">
           <button
             disabled={!billImage || isSubmitting || isGlobalProcessing || isDuplicateTransaction}
             onClick={handleConfirmSettlement}
-            className={`w-full py-2.5 rounded-2xl font-black text-[9px] uppercase tracking-[0.15em] transition-all shadow-xl active:scale-95 ${
+            className={`w-full py-3.5 rounded-xl font-black text-[10px] uppercase tracking-[0.15em] transition-all shadow-xl active:scale-95 ${
               billImage && !isSubmitting && !isGlobalProcessing && !isDuplicateTransaction ? 'bg-[#ff8c00] text-black shadow-orange-950/20' : 'bg-white/5 text-gray-600 cursor-not-allowed opacity-50'
             }`}
           >
@@ -982,7 +990,6 @@ const LoanApplication: React.FC<LoanApplicationProps> = ({ user, loans, systemBu
       </div>
     );
   };
-
   const renderContract = () => (
     <div className="fixed inset-0 z-[100] bg-black flex flex-col animate-in fade-in slide-in-from-bottom-10 duration-500 overflow-hidden">
       <div className="w-full p-3 flex items-center justify-between bg-black text-white border-b border-white/5 flex-none">
@@ -1003,8 +1010,8 @@ const LoanApplication: React.FC<LoanApplicationProps> = ({ user, loans, systemBu
         </button>
       </div>
 
-      <div className="flex-1 bg-black px-2 pt-1 pb-20 overflow-hidden flex flex-col">
-        <div className="bg-white w-full rounded-2xl p-3 relative overflow-hidden shadow-2xl border border-gray-100 flex-1 flex flex-col">
+      <div className="flex-1 bg-black px-2 pt-1 pb-2 overflow-hidden flex flex-col">
+        <div className="bg-white w-full rounded-2xl p-2.5 relative overflow-hidden shadow-2xl border border-gray-100 flex-1 flex flex-col">
           
           <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center opacity-[0.01] rotate-[-35deg] select-none space-y-8">
             <span className="text-3xl font-black whitespace-nowrap">NDV ORIGINAL DOCUMENT</span>
@@ -1027,68 +1034,68 @@ const LoanApplication: React.FC<LoanApplicationProps> = ({ user, loans, systemBu
 
           <div className="w-full h-px bg-gray-100 my-2 relative z-10 flex-none"></div>
 
-          <div className="flex-1 min-h-0 flex flex-col justify-between relative z-10 overflow-y-auto py-1">
+          <div className="flex-1 min-h-0 flex flex-col justify-between relative z-10 overflow-hidden py-0.5">
             
             {/* Điều 1: Các bên */}
-            <section className="space-y-1.5 flex-none">
-              <div className="flex items-center gap-1.5">
-                <div className="w-4 h-4 bg-black rounded flex items-center justify-center text-white font-black text-[7px]">01</div>
-                <h4 className="text-[10px] font-black text-black uppercase tracking-widest">Các bên giao kết</h4>
+            <section className="space-y-1 flex-none">
+              <div className="flex items-center gap-1">
+                <div className="w-3.5 h-3.5 bg-black rounded flex items-center justify-center text-white font-black text-[6px]">01</div>
+                <h4 className="text-[9px] font-black text-black uppercase tracking-widest">Các bên giao kết</h4>
               </div>
-              <div className="grid grid-cols-2 gap-2">
-                <div className="bg-gray-50 border border-gray-100 rounded-lg p-2.5 flex flex-col justify-center shadow-sm">
-                  <p className="text-gray-400 uppercase text-[6px] font-black tracking-widest mb-1">Bên A (Cho vay)</p>
-                  <p className="text-[9px] text-black font-black uppercase truncate">NDV FINANCIAL</p>
+              <div className="grid grid-cols-2 gap-1.5">
+                <div className="bg-gray-50 border border-gray-100 rounded-lg p-2 flex flex-col justify-center shadow-sm">
+                  <p className="text-gray-400 uppercase text-[5px] font-black tracking-widest mb-0.5">Bên A (Cho vay)</p>
+                  <p className="text-[8px] text-black font-black uppercase truncate">NDV FINANCIAL</p>
                 </div>
-                <div className="bg-gray-50 border border-gray-100 rounded-lg p-2.5 flex flex-col justify-center shadow-sm">
-                  <p className="text-gray-400 uppercase text-[6px] font-black tracking-widest mb-1">Bên B (Người vay)</p>
-                  <p className="text-[9px] text-black font-black uppercase truncate">{user?.fullName || 'KHÁCH HÀNG'}</p>
+                <div className="bg-gray-50 border border-gray-100 rounded-lg p-2 flex flex-col justify-center shadow-sm">
+                  <p className="text-gray-400 uppercase text-[5px] font-black tracking-widest mb-0.5">Bên B (Người vay)</p>
+                  <p className="text-[8px] text-black font-black uppercase truncate">{user?.fullName || 'KHÁCH HÀNG'}</p>
                 </div>
               </div>
             </section>
 
             {/* Điều 2: Chi tiết khoản vay */}
-            <section className="space-y-1.5 flex-none">
-              <div className="flex items-center gap-1.5">
-                <div className="w-4 h-4 bg-black rounded flex items-center justify-center text-white font-black text-[7px]">02</div>
-                <h4 className="text-[10px] font-black text-black uppercase tracking-widest">Chi tiết khoản vay</h4>
+            <section className="space-y-1 flex-none">
+              <div className="flex items-center gap-1">
+                <div className="w-3.5 h-3.5 bg-black rounded flex items-center justify-center text-white font-black text-[6px]">02</div>
+                <h4 className="text-[9px] font-black text-black uppercase tracking-widest">Chi tiết khoản vay</h4>
               </div>
-              <div className="bg-gray-50 border border-gray-100 rounded-lg p-2.5 flex items-center justify-center shadow-sm">
+              <div className="bg-gray-50 border border-gray-100 rounded-lg p-2 flex items-center justify-center shadow-sm">
                 <div className="flex flex-col items-center">
-                  <span className="text-[7px] font-black text-gray-400 uppercase tracking-wider">Số tiền vay gốc</span>
-                  <span className="text-[14px] font-black text-black">{selectedAmount.toLocaleString()} đ</span>
+                  <span className="text-[6px] font-black text-gray-400 uppercase tracking-wider">Số tiền vay gốc</span>
+                  <span className="text-[12px] font-black text-black">{selectedAmount.toLocaleString()} đ</span>
                 </div>
               </div>
             </section>
 
             {/* Điều 3: Thời hạn & Lãi suất */}
-            <section className="space-y-1.5 flex-none">
-              <div className="flex items-center gap-1.5">
-                <div className="w-4 h-4 bg-black rounded flex items-center justify-center text-white font-black text-[7px]">03</div>
-                <h4 className="text-[10px] font-black text-black uppercase tracking-widest">Thời hạn & Lãi suất</h4>
+            <section className="space-y-1 flex-none">
+              <div className="flex items-center gap-1">
+                <div className="w-3.5 h-3.5 bg-black rounded flex items-center justify-center text-white font-black text-[6px]">03</div>
+                <h4 className="text-[9px] font-black text-black uppercase tracking-widest">Thời hạn & Lãi suất</h4>
               </div>
-              <div className="bg-gray-50 border border-gray-100 rounded-lg p-2.5 flex items-center justify-between shadow-sm">
-                <div className="flex items-center gap-2">
-                  <Calendar size={12} className="text-gray-400" />
+              <div className="bg-gray-50 border border-gray-100 rounded-lg p-2 flex items-center justify-between shadow-sm">
+                <div className="flex items-center gap-1.5">
+                  <Calendar size={10} className="text-gray-400" />
                   <div className="flex flex-col">
-                    <span className="text-[7px] font-black text-gray-400 uppercase tracking-wider">Ngày đến hạn</span>
-                    <span className="text-[10px] font-black text-black">{dueDate}</span>
+                    <span className="text-[6px] font-black text-gray-400 uppercase tracking-wider">Ngày đến hạn</span>
+                    <span className="text-[9px] font-black text-black">{dueDate}</span>
                   </div>
                 </div>
-                <div className="bg-green-100 text-green-700 px-2.5 py-1 rounded text-[9px] font-black uppercase tracking-tighter">Lãi suất: 0%</div>
+                <div className="bg-green-100 text-green-700 px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-tighter">Lãi suất: 0%</div>
               </div>
             </section>
 
             {/* Điều 4: Cam kết & Chế tài */}
-            <section className="space-y-1.5 flex-none">
-              <div className="flex items-center gap-1.5">
-                <div className="w-4 h-4 bg-red-600 rounded flex items-center justify-center text-white font-black text-[7px]">04</div>
-                <h4 className="text-[10px] font-black text-red-600 uppercase tracking-widest">Cam kết & Chế tài</h4>
+            <section className="space-y-1 flex-none">
+              <div className="flex items-center gap-1">
+                <div className="w-3.5 h-3.5 bg-red-600 rounded flex items-center justify-center text-white font-black text-[7px]">04</div>
+                <h4 className="text-[9px] font-black text-red-600 uppercase tracking-widest">Cam kết & Chế tài</h4>
               </div>
-              <div className="bg-red-50/50 border border-red-100 rounded-lg p-2.5 shadow-sm">
-                <p className="text-[9px] font-bold text-gray-700 leading-relaxed">
+              <div className="bg-red-50/50 border border-red-100 rounded-lg p-2 shadow-sm">
+                <p className="text-[8px] font-bold text-gray-700 leading-tight">
                   Bên B cam kết thanh toán đúng hạn.<br />
-                  Phí phạt chậm trả <span className="text-red-600 font-black">0.1%/ngày</span> (không quá 30% giá trị khoản vay).<br />
+                  Phí phạt chậm trả <span className="text-red-600 font-black">0.1%/ngày</span>.<br />
                   Hợp đồng có giá trị pháp lý ngay sau khi ký số.
                 </p>
               </div>

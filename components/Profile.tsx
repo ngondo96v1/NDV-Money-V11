@@ -29,14 +29,13 @@ interface ProfileProps {
   onUpdateBank?: (bankData: { bankName: string; bankAccountNumber: string; bankAccountHolder: string }) => void;
   onUpdateProfile?: (userData: Partial<User>) => void;
   onRefresh?: () => void;
+  onShowSecurity?: () => void;
+  onShowTerms?: () => void;
+  onShowBankInfo?: () => void;
+  onShowEditProfile?: () => void;
 }
 
-const Profile: React.FC<ProfileProps> = ({ user, onBack, onLogout, onUpdateBank, onUpdateProfile, onRefresh }) => {
-  const [showSecurity, setShowSecurity] = useState(false);
-  const [showTerms, setShowTerms] = useState(false);
-  const [showBankInfo, setShowBankInfo] = useState(false);
-  const [showEditProfile, setShowEditProfile] = useState(false);
-
+const Profile: React.FC<ProfileProps> = ({ user, onBack, onLogout, onUpdateBank, onUpdateProfile, onRefresh, onShowSecurity, onShowTerms, onShowBankInfo, onShowEditProfile }) => {
   const getRankName = (rank?: string) => {
     switch(rank) {
       case 'standard': return 'Thành viên Tiêu chuẩn';
@@ -53,7 +52,7 @@ const Profile: React.FC<ProfileProps> = ({ user, onBack, onLogout, onUpdateBank,
   };
 
   return (
-    <div className="w-full bg-black px-5 pb-10 space-y-6 animate-in fade-in duration-500">
+    <div className="w-full bg-black px-5 pb-10 space-y-6 opacity-100 transition-opacity duration-500">
       {/* Header Logo for Profile View with X Button */}
       <div className="w-full py-3 flex items-center justify-between bg-black z-50">
         <div className="flex items-center gap-2.5">
@@ -80,7 +79,7 @@ const Profile: React.FC<ProfileProps> = ({ user, onBack, onLogout, onUpdateBank,
             <UserIcon size={32} className="text-black" />
           </div>
           <button 
-            onClick={() => setShowEditProfile(true)}
+            onClick={onShowEditProfile}
             className="absolute -top-0.5 -right-0.5 w-8 h-8 bg-[#111111] border border-white/10 rounded-full flex items-center justify-center text-[#ff8c00] shadow-xl active:scale-90 transition-all"
           >
             <Pencil size={14} />
@@ -95,10 +94,9 @@ const Profile: React.FC<ProfileProps> = ({ user, onBack, onLogout, onUpdateBank,
         </div>
       </div>
 
-      {/* Menu List */}
       <div className="space-y-2 pt-1">
         <button 
-          onClick={() => setShowBankInfo(true)}
+          onClick={onShowBankInfo}
           className="w-full bg-[#111111] border border-white/5 rounded-xl p-4 flex items-center justify-between group active:scale-[0.98] transition-all"
         >
           <div className="flex items-center gap-3.5">
@@ -116,7 +114,7 @@ const Profile: React.FC<ProfileProps> = ({ user, onBack, onLogout, onUpdateBank,
         </button>
 
         <button 
-          onClick={() => setShowSecurity(true)}
+          onClick={onShowSecurity}
           className="w-full bg-[#111111] border border-white/5 rounded-xl p-4 flex items-center justify-between group active:scale-[0.98] transition-all"
         >
           <div className="flex items-center gap-3.5">
@@ -129,7 +127,7 @@ const Profile: React.FC<ProfileProps> = ({ user, onBack, onLogout, onUpdateBank,
         </button>
 
         <button 
-          onClick={() => setShowTerms(true)}
+          onClick={onShowTerms}
           className="w-full bg-[#111111] border border-white/5 rounded-xl p-4 flex items-center justify-between group active:scale-[0.98] transition-all"
         >
           <div className="flex items-center gap-3.5">
@@ -154,30 +152,6 @@ const Profile: React.FC<ProfileProps> = ({ user, onBack, onLogout, onUpdateBank,
           <ChevronRight size={14} className="text-gray-700 group-hover:text-white" />
         </button>
       </div>
-
-      {showSecurity && (
-        <SecurityModal 
-          user={user}
-          onClose={() => setShowSecurity(false)} 
-          onLogout={onLogout} 
-          onUpdatePassword={(newPass) => onUpdateProfile?.({ password: newPass })}
-        />
-      )}
-      {showTerms && <TermsModal onClose={() => setShowTerms(false)} />}
-      {showBankInfo && (
-        <BankInfoModal 
-          user={user} 
-          onClose={() => setShowBankInfo(false)} 
-          onUpdate={(data) => onUpdateBank?.(data)} 
-        />
-      )}
-      {showEditProfile && (
-        <EditProfileModal 
-          user={user} 
-          onClose={() => setShowEditProfile(false)} 
-          onUpdate={(data) => onUpdateProfile?.(data)} 
-        />
-      )}
     </div>
   );
 };

@@ -77,126 +77,131 @@ const BankInfoModal: React.FC<BankInfoModalProps> = ({ user, onClose, onUpdate }
   };
 
   return (
-    <div className="fixed inset-0 z-[2000] bg-black flex flex-col h-[100dvh] max-w-md mx-auto animate-in fade-in duration-300 overflow-hidden">
-      <div className="p-6 border-b border-white/5 flex items-center justify-between shrink-0 pt-8">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-500">
-            <Landmark size={20} />
+    <div className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-300">
+      <div className="bg-[#111111] w-full max-w-md rounded-[2.5rem] flex flex-col max-h-[90dvh] overflow-hidden border border-white/10 shadow-2xl">
+        {/* Header */}
+        <div className="p-5 border-b border-white/5 flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-500">
+              <Landmark size={18} />
+            </div>
+            <h3 className="text-lg font-black text-white uppercase tracking-tighter">Tài khoản nhận tiền</h3>
           </div>
-          <h3 className="text-xl font-black text-white uppercase tracking-tighter">Tài khoản nhận tiền</h3>
+          <button 
+            onClick={onClose}
+            className="w-9 h-9 bg-white/5 rounded-full flex items-center justify-center text-gray-500 hover:text-white transition-all"
+          >
+            <X size={18} />
+          </button>
         </div>
-        <button 
-          onClick={onClose}
-          className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center text-gray-500 hover:text-white transition-all"
-        >
-          <X size={20} />
-        </button>
-      </div>
 
-      <div className="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar">
-        <div className="space-y-6">
-          <div className="space-y-2 relative">
-            <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-4">Tên ngân hàng</label>
-            <div className="relative">
-              <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-600">
-                <Landmark size={18} />
+        {/* Content */}
+        <div className="flex-1 overflow-y-auto p-5 space-y-5 custom-scrollbar">
+          <div className="space-y-5">
+            <div className="space-y-1.5 relative">
+              <label className="text-[9px] font-black text-gray-500 uppercase tracking-widest ml-4">Tên ngân hàng</label>
+              <div className="relative">
+                <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-600">
+                  <Landmark size={16} />
+                </div>
+                <input 
+                  type="text"
+                  value={bankName}
+                  onChange={(e) => {
+                    setBankName(e.target.value.toUpperCase());
+                    setShowSuggestions(true);
+                  }}
+                  onFocus={() => setShowSuggestions(true)}
+                  placeholder="VD: MB BANK, VIETCOMBANK..."
+                  className="w-full bg-black border border-white/5 rounded-2xl py-4 pl-12 pr-6 text-sm font-bold text-white placeholder-gray-800 focus:outline-none focus:border-[#ff8c00]/30 transition-all"
+                />
               </div>
-              <input 
-                type="text"
-                value={bankName}
-                onChange={(e) => {
-                  setBankName(e.target.value.toUpperCase());
-                  setShowSuggestions(true);
-                }}
-                onFocus={() => setShowSuggestions(true)}
-                placeholder="VD: MB BANK, VIETCOMBANK..."
-                className="w-full bg-black border border-white/5 rounded-2xl py-4.5 pl-14 pr-6 text-sm font-bold text-white placeholder-gray-800 focus:outline-none focus:border-[#ff8c00]/30 transition-all"
-              />
-            </div>
-            {showSuggestions && suggestions.length > 0 && (
-              <div className="absolute z-10 w-full mt-2 bg-[#1a1a1a] border border-white/10 rounded-2xl overflow-hidden shadow-2xl animate-in slide-in-from-top-2 duration-200">
-                {suggestions.map((s) => (
-                  <button
-                    key={s}
-                    onClick={() => {
-                      setBankName(s);
-                      setShowSuggestions(false);
-                    }}
-                    className="w-full px-6 py-4 text-left text-xs font-black text-gray-400 hover:text-white hover:bg-white/5 transition-all border-b border-white/5 last:border-0"
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-4">Số tài khoản</label>
-            <div className="relative">
-              <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-600">
-                <CreditCard size={18} />
-              </div>
-              <input 
-                type="text"
-                inputMode="numeric"
-                pattern="[0-9]*"
-                value={bankAccountNumber}
-                onChange={(e) => setBankAccountNumber(e.target.value.replace(/\D/g, ''))}
-                placeholder="Nhập số tài khoản..."
-                className="w-full bg-black border border-white/5 rounded-2xl py-4.5 pl-14 pr-6 text-sm font-bold text-white placeholder-gray-800 focus:outline-none focus:border-[#ff8c00]/30 transition-all"
-              />
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex justify-between items-center ml-4">
-              <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Chủ tài khoản</label>
-              {isAccountHolderInvalid && (
-                <div className="flex items-center gap-1 text-red-500 animate-pulse">
-                  <AlertCircle size={10} />
-                  <span className="text-[8px] font-black uppercase tracking-tighter">Vui lòng viết không dấu</span>
+              {showSuggestions && suggestions.length > 0 && (
+                <div className="absolute z-10 w-full mt-1 bg-[#1a1a1a] border border-white/10 rounded-2xl overflow-hidden shadow-2xl animate-in slide-in-from-top-2 duration-200">
+                  {suggestions.map((s) => (
+                    <button
+                      key={s}
+                      onClick={() => {
+                        setBankName(s);
+                        setShowSuggestions(false);
+                      }}
+                      className="w-full px-5 py-3.5 text-left text-[10px] font-black text-gray-400 hover:text-white hover:bg-white/5 transition-all border-b border-white/5 last:border-0"
+                    >
+                      {s}
+                    </button>
+                  ))}
                 </div>
               )}
             </div>
-            <div className="relative">
-              <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-600">
-                <UserIcon size={18} />
+
+            <div className="space-y-1.5">
+              <label className="text-[9px] font-black text-gray-500 uppercase tracking-widest ml-4">Số tài khoản</label>
+              <div className="relative">
+                <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-600">
+                  <CreditCard size={16} />
+                </div>
+                <input 
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  value={bankAccountNumber}
+                  onChange={(e) => setBankAccountNumber(e.target.value.replace(/\D/g, ''))}
+                  placeholder="Nhập số tài khoản..."
+                  className="w-full bg-black border border-white/5 rounded-2xl py-4 pl-12 pr-6 text-sm font-bold text-white placeholder-gray-800 focus:outline-none focus:border-[#ff8c00]/30 transition-all"
+                />
               </div>
-              <input 
-                type="text"
-                value={bankAccountHolder}
-                onChange={(e) => setBankAccountHolder(e.target.value.toUpperCase())}
-                placeholder="TÊN KHÔNG DẤU..."
-                className={`w-full bg-black border rounded-2xl py-4.5 pl-14 pr-6 text-sm font-bold text-white placeholder-gray-800 focus:outline-none transition-all ${isAccountHolderInvalid || isNameMismatched ? 'border-red-500/50' : 'border-white/5 focus:border-[#ff8c00]/30'}`}
-              />
-              {isNameMismatched && (
-                <div className="absolute -top-12 left-0 right-0 z-20 animate-in slide-in-from-bottom-2 duration-300">
-                  <div className="bg-red-600 text-white text-[9px] font-black py-2 px-4 rounded-xl flex items-center gap-2 shadow-xl relative">
-                    <AlertCircle size={14} />
-                    <span>TÊN TÀI KHOẢN KHÔNG HỢP LỆ</span>
-                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-red-600 rotate-45"></div>
+            </div>
+
+            <div className="space-y-1.5">
+              <div className="flex justify-between items-center ml-4">
+                <label className="text-[9px] font-black text-gray-500 uppercase tracking-widest">Chủ tài khoản</label>
+                {isAccountHolderInvalid && (
+                  <div className="flex items-center gap-1 text-red-500 animate-pulse">
+                    <AlertCircle size={10} />
+                    <span className="text-[8px] font-black uppercase tracking-tighter">Vui lòng viết không dấu</span>
                   </div>
+                )}
+              </div>
+              <div className="relative">
+                <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-600">
+                  <UserIcon size={16} />
                 </div>
-              )}
+                <input 
+                  type="text"
+                  value={bankAccountHolder}
+                  onChange={(e) => setBankAccountHolder(e.target.value.toUpperCase())}
+                  placeholder="TÊN KHÔNG DẤU..."
+                  className={`w-full bg-black border rounded-2xl py-4 pl-12 pr-6 text-sm font-bold text-white placeholder-gray-800 focus:outline-none transition-all ${isAccountHolderInvalid || isNameMismatched ? 'border-red-500/50' : 'border-white/5 focus:border-[#ff8c00]/30'}`}
+                />
+                {isNameMismatched && (
+                  <div className="absolute -top-10 left-0 right-0 z-20 animate-in slide-in-from-bottom-2 duration-300">
+                    <div className="bg-red-600 text-white text-[8px] font-black py-1.5 px-3 rounded-xl flex items-center gap-2 shadow-xl relative">
+                      <AlertCircle size={12} />
+                      <span>TÊN TÀI KHOẢN KHÔNG HỢP LỆ</span>
+                      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-red-600 rotate-45"></div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="p-6 border-t border-white/5 shrink-0 bg-black pb-8 flex gap-3">
-        <button 
-          onClick={onClose}
-          className="flex-1 py-4.5 bg-white/5 border border-white/10 rounded-2xl text-gray-500 font-black text-[10px] uppercase tracking-widest active:scale-95 transition-all"
-        >
-          Hủy bỏ
-        </button>
-        <button 
-          onClick={handleSave}
-          className="flex-[1.5] py-4.5 bg-[#ff8c00] rounded-2xl text-black font-black text-[10px] uppercase tracking-widest active:scale-95 transition-all shadow-xl shadow-orange-950/20 flex items-center justify-center gap-2"
-        >
-          <Save size={16} /> Lưu thông tin
-        </button>
+        {/* Footer */}
+        <div className="p-5 border-t border-white/5 shrink-0 bg-[#111111] flex gap-3">
+          <button 
+            onClick={onClose}
+            className="flex-1 py-4 bg-white/5 border border-white/10 rounded-2xl text-gray-500 font-black text-[10px] uppercase tracking-widest active:scale-95 transition-all"
+          >
+            Hủy bỏ
+          </button>
+          <button 
+            onClick={handleSave}
+            className="flex-[1.5] py-4 bg-[#ff8c00] rounded-2xl text-black font-black text-[10px] uppercase tracking-widest active:scale-95 transition-all shadow-xl shadow-orange-950/20 flex items-center justify-center gap-2"
+          >
+            <Save size={14} /> Lưu thông tin
+          </button>
+        </div>
       </div>
 
       {/* Confirmation Popup */}

@@ -32,110 +32,115 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ user, onClose, onUp
   };
 
   return (
-    <div className="fixed inset-0 z-[2000] bg-black flex flex-col h-[100dvh] max-w-md mx-auto animate-in fade-in duration-300 overflow-hidden">
-      <div className="p-6 border-b border-white/5 flex items-center justify-between shrink-0 pt-8">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-[#ff8c00]/10 rounded-xl flex items-center justify-center text-[#ff8c00]">
-            <UserIcon size={20} />
+    <div className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-300">
+      <div className="bg-[#111111] w-full max-w-md rounded-[2.5rem] flex flex-col max-h-[90dvh] overflow-hidden border border-white/10 shadow-2xl">
+        {/* Header */}
+        <div className="p-5 border-b border-white/5 flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 bg-[#ff8c00]/10 rounded-xl flex items-center justify-center text-[#ff8c00]">
+              <UserIcon size={18} />
+            </div>
+            <h3 className="text-lg font-black text-white uppercase tracking-tighter">Chỉnh sửa thông tin</h3>
           </div>
-          <h3 className="text-xl font-black text-white uppercase tracking-tighter">Chỉnh sửa thông tin</h3>
+          <button 
+            onClick={onClose}
+            className="w-9 h-9 bg-white/5 rounded-full flex items-center justify-center text-gray-500 hover:text-white transition-all"
+          >
+            <X size={18} />
+          </button>
         </div>
-        <button 
-          onClick={onClose}
-          className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center text-gray-500 hover:text-white transition-all"
-        >
-          <X size={20} />
-        </button>
-      </div>
 
-      <div className="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar">
-        <div className="space-y-6">
-          <div className="space-y-2">
-            <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-4">Họ và tên</label>
-            <div className="relative">
-              <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-600">
-                <UserIcon size={18} />
+        {/* Content */}
+        <div className="flex-1 overflow-y-auto p-5 space-y-5 custom-scrollbar">
+          <div className="space-y-5">
+            <div className="space-y-1.5">
+              <label className="text-[9px] font-black text-gray-500 uppercase tracking-widest ml-4">Họ và tên</label>
+              <div className="relative">
+                <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-600">
+                  <UserIcon size={16} />
+                </div>
+                <input 
+                  type="text"
+                  value={fullName}
+                  readOnly
+                  placeholder="Nhập họ tên đầy đủ..."
+                  className="w-full bg-black/50 border border-white/5 rounded-2xl py-4 pl-12 pr-6 text-sm font-bold text-gray-500 cursor-not-allowed focus:outline-none transition-all"
+                />
               </div>
-              <input 
-                type="text"
-                value={fullName}
-                readOnly
-                placeholder="Nhập họ tên đầy đủ..."
-                className="w-full bg-black/50 border border-white/5 rounded-2xl py-4.5 pl-14 pr-6 text-sm font-bold text-gray-500 cursor-not-allowed focus:outline-none transition-all"
-              />
             </div>
-          </div>
 
-          <div className="space-y-2">
-            <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-4">Địa chỉ thường trú</label>
-            <div className="relative">
-              <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-600">
-                <MapPin size={18} />
+            <div className="space-y-1.5">
+              <label className="text-[9px] font-black text-gray-500 uppercase tracking-widest ml-4">Địa chỉ thường trú</label>
+              <div className="relative">
+                <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-600">
+                  <MapPin size={16} />
+                </div>
+                <input 
+                  type="text"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  placeholder="Nhập địa chỉ của bạn..."
+                  className="w-full bg-black border border-white/5 rounded-2xl py-4 pl-12 pr-6 text-sm font-bold text-white placeholder-gray-800 focus:outline-none focus:border-[#ff8c00]/30 transition-all"
+                />
               </div>
-              <input 
-                type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                placeholder="Nhập địa chỉ của bạn..."
-                className="w-full bg-black border border-white/5 rounded-2xl py-4.5 pl-14 pr-6 text-sm font-bold text-white placeholder-gray-800 focus:outline-none focus:border-[#ff8c00]/30 transition-all"
-              />
             </div>
-          </div>
 
-          <div className="space-y-2">
-            <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-4">Số CCCD / Định danh</label>
-            <div className="relative">
-              <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-600">
-                <ShieldCheck size={18} />
+            <div className="space-y-1.5">
+              <label className="text-[9px] font-black text-gray-500 uppercase tracking-widest ml-4">Số CCCD / Định danh</label>
+              <div className="relative">
+                <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-600">
+                  <ShieldCheck size={16} />
+                </div>
+                <input 
+                  type="text"
+                  value={idNumber}
+                  onChange={(e) => setIdNumber(e.target.value)}
+                  placeholder="Nhập số CCCD..."
+                  className="w-full bg-black border border-white/5 rounded-2xl py-4 pl-12 pr-6 text-sm font-bold text-white placeholder-gray-800 focus:outline-none focus:border-[#ff8c00]/30 transition-all"
+                />
               </div>
-              <input 
-                type="text"
-                value={idNumber}
-                onChange={(e) => setIdNumber(e.target.value)}
-                placeholder="Nhập số CCCD..."
-                className="w-full bg-black border border-white/5 rounded-2xl py-4.5 pl-14 pr-6 text-sm font-bold text-white placeholder-gray-800 focus:outline-none focus:border-[#ff8c00]/30 transition-all"
-              />
             </div>
-          </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-4">Zalo người thân</label>
-              <input 
-                type="text"
-                value={refZalo}
-                onChange={(e) => setRefZalo(e.target.value)}
-                placeholder="Số điện thoại..."
-                className="w-full bg-black border border-white/5 rounded-2xl py-4.5 px-6 text-sm font-bold text-white placeholder-gray-800 focus:outline-none focus:border-[#ff8c00]/30 transition-all"
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-4">Mối quan hệ</label>
-              <input 
-                type="text"
-                value={relationship}
-                onChange={(e) => setRelationship(e.target.value)}
-                placeholder="VD: Anh, Chị..."
-                className="w-full bg-black border border-white/5 rounded-2xl py-4.5 px-6 text-sm font-bold text-white placeholder-gray-800 focus:outline-none focus:border-[#ff8c00]/30 transition-all"
-              />
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <label className="text-[9px] font-black text-gray-500 uppercase tracking-widest ml-4">Zalo người thân</label>
+                <input 
+                  type="text"
+                  value={refZalo}
+                  onChange={(e) => setRefZalo(e.target.value)}
+                  placeholder="Số điện thoại..."
+                  className="w-full bg-black border border-white/5 rounded-2xl py-4 px-5 text-sm font-bold text-white placeholder-gray-800 focus:outline-none focus:border-[#ff8c00]/30 transition-all"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-[9px] font-black text-gray-500 uppercase tracking-widest ml-4">Mối quan hệ</label>
+                <input 
+                  type="text"
+                  value={relationship}
+                  onChange={(e) => setRelationship(e.target.value)}
+                  placeholder="VD: Anh, Chị..."
+                  className="w-full bg-black border border-white/5 rounded-2xl py-4 px-5 text-sm font-bold text-white placeholder-gray-800 focus:outline-none focus:border-[#ff8c00]/30 transition-all"
+                />
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="p-6 border-t border-white/5 shrink-0 bg-black pb-8 flex gap-3">
-        <button 
-          onClick={onClose}
-          className="flex-1 py-4.5 bg-white/5 border border-white/10 rounded-2xl text-gray-500 font-black text-[10px] uppercase tracking-widest active:scale-95 transition-all"
-        >
-          Hủy bỏ
-        </button>
-        <button 
-          onClick={handleSave}
-          className="flex-[1.5] py-4.5 bg-[#ff8c00] rounded-2xl text-black font-black text-[10px] uppercase tracking-widest active:scale-95 transition-all shadow-xl shadow-orange-950/20 flex items-center justify-center gap-2"
-        >
-          <Save size={16} /> Lưu thay đổi
-        </button>
+        {/* Footer */}
+        <div className="p-5 border-t border-white/5 shrink-0 bg-[#111111] flex gap-3">
+          <button 
+            onClick={onClose}
+            className="flex-1 py-4 bg-white/5 border border-white/10 rounded-2xl text-gray-500 font-black text-[10px] uppercase tracking-widest active:scale-95 transition-all"
+          >
+            Hủy bỏ
+          </button>
+          <button 
+            onClick={handleSave}
+            className="flex-[1.5] py-4 bg-[#ff8c00] rounded-2xl text-black font-black text-[10px] uppercase tracking-widest active:scale-95 transition-all shadow-xl shadow-orange-950/20 flex items-center justify-center gap-2"
+          >
+            <Save size={14} /> Lưu thay đổi
+          </button>
+        </div>
       </div>
     </div>
   );

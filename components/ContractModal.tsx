@@ -30,8 +30,8 @@ const ContractModal: React.FC<ContractModalProps> = ({ contract, user, onClose }
         </button>
       </div>
 
-      <div className="flex-1 bg-black px-2 pt-1 pb-20 overflow-hidden flex flex-col">
-        <div className="bg-white w-full rounded-2xl p-3 relative overflow-hidden shadow-2xl border border-gray-100 flex-1 flex flex-col">
+      <div className="flex-1 bg-black px-2 pt-1 pb-2 overflow-hidden flex flex-col">
+        <div className="bg-white w-full rounded-2xl p-2.5 relative overflow-hidden shadow-2xl border border-gray-100 flex-1 flex flex-col">
           
           <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center opacity-[0.01] rotate-[-35deg] select-none space-y-8">
             <span className="text-3xl font-black whitespace-nowrap">NDV MONEY ORIGINAL</span>
@@ -54,68 +54,68 @@ const ContractModal: React.FC<ContractModalProps> = ({ contract, user, onClose }
 
           <div className="w-full h-px bg-gray-100 my-2 relative z-10 flex-none"></div>
 
-          <div className="flex-1 min-h-0 flex flex-col justify-between relative z-10 overflow-y-auto custom-scrollbar py-1 pr-1">
+          <div className="flex-1 min-h-0 flex flex-col justify-between relative z-10 overflow-hidden py-0.5 pr-1">
             
             {/* Điều 1: Các bên */}
-            <section className="space-y-1.5 flex-none">
-              <div className="flex items-center gap-1.5">
-                <div className="w-4 h-4 bg-black rounded flex items-center justify-center text-white font-black text-[7px]">01</div>
-                <h4 className="text-[10px] font-black text-black uppercase tracking-widest">Các bên giao kết</h4>
+            <section className="space-y-1 flex-none">
+              <div className="flex items-center gap-1">
+                <div className="w-3.5 h-3.5 bg-black rounded flex items-center justify-center text-white font-black text-[6px]">01</div>
+                <h4 className="text-[9px] font-black text-black uppercase tracking-widest">Các bên giao kết</h4>
               </div>
-              <div className="grid grid-cols-2 gap-2">
-                <div className="bg-gray-50 border border-gray-100 rounded-lg p-2.5 flex flex-col justify-center shadow-sm">
-                  <p className="text-gray-400 uppercase text-[6px] font-black tracking-widest mb-1">Bên A (Cho vay)</p>
-                  <p className="text-[9px] text-black font-black uppercase truncate">NDV FINANCIAL</p>
+              <div className="grid grid-cols-2 gap-1.5">
+                <div className="bg-gray-50 border border-gray-100 rounded-lg p-2 flex flex-col justify-center shadow-sm">
+                  <p className="text-gray-400 uppercase text-[5px] font-black tracking-widest mb-0.5">Bên A (Cho vay)</p>
+                  <p className="text-[8px] text-black font-black uppercase truncate">NDV FINANCIAL</p>
                 </div>
-                <div className="bg-gray-50 border border-gray-100 rounded-lg p-2.5 flex flex-col justify-center shadow-sm">
-                  <p className="text-gray-400 uppercase text-[6px] font-black tracking-widest mb-1">Bên B (Người vay)</p>
-                  <p className="text-[9px] text-black font-black uppercase truncate">{user?.fullName || 'KHÁCH HÀNG'}</p>
+                <div className="bg-gray-50 border border-gray-100 rounded-lg p-2 flex flex-col justify-center shadow-sm">
+                  <p className="text-gray-400 uppercase text-[5px] font-black tracking-widest mb-0.5">Bên B (Người vay)</p>
+                  <p className="text-[8px] text-black font-black uppercase truncate">{user?.fullName || 'KHÁCH HÀNG'}</p>
                 </div>
               </div>
             </section>
 
             {/* Điều 2: Chi tiết khoản vay */}
-            <section className="space-y-1.5 flex-none">
-              <div className="flex items-center gap-1.5">
-                <div className="w-4 h-4 bg-black rounded flex items-center justify-center text-white font-black text-[7px]">02</div>
-                <h4 className="text-[10px] font-black text-black uppercase tracking-widest">Chi tiết khoản vay</h4>
+            <section className="space-y-1 flex-none">
+              <div className="flex items-center gap-1">
+                <div className="w-3.5 h-3.5 bg-black rounded flex items-center justify-center text-white font-black text-[6px]">02</div>
+                <h4 className="text-[9px] font-black text-black uppercase tracking-widest">Chi tiết khoản vay</h4>
               </div>
-              <div className="bg-gray-50 border border-gray-100 rounded-lg p-2.5 flex items-center justify-center shadow-sm">
+              <div className="bg-gray-50 border border-gray-100 rounded-lg p-2 flex items-center justify-center shadow-sm">
                 <div className="flex flex-col items-center">
-                  <span className="text-[7px] font-black text-gray-400 uppercase tracking-wider">Số tiền vay gốc</span>
-                  <span className="text-[14px] font-black text-black">{contract.amount.toLocaleString()} đ</span>
+                  <span className="text-[6px] font-black text-gray-400 uppercase tracking-wider">Số tiền vay gốc</span>
+                  <span className="text-[12px] font-black text-black">{contract.amount.toLocaleString()} đ</span>
                 </div>
               </div>
             </section>
 
             {/* Điều 3: Thời hạn & Lãi suất */}
-            <section className="space-y-1.5 flex-none">
-              <div className="flex items-center gap-1.5">
-                <div className="w-4 h-4 bg-black rounded flex items-center justify-center text-white font-black text-[7px]">03</div>
-                <h4 className="text-[10px] font-black text-black uppercase tracking-widest">Thời hạn & Lãi suất</h4>
+            <section className="space-y-1 flex-none">
+              <div className="flex items-center gap-1">
+                <div className="w-3.5 h-3.5 bg-black rounded flex items-center justify-center text-white font-black text-[6px]">03</div>
+                <h4 className="text-[9px] font-black text-black uppercase tracking-widest">Thời hạn & Lãi suất</h4>
               </div>
-              <div className="bg-gray-50 border border-gray-100 rounded-lg p-2.5 flex items-center justify-between shadow-sm">
-                <div className="flex items-center gap-2">
-                  <Calendar size={12} className="text-gray-400" />
+              <div className="bg-gray-50 border border-gray-100 rounded-lg p-2 flex items-center justify-between shadow-sm">
+                <div className="flex items-center gap-1.5">
+                  <Calendar size={10} className="text-gray-400" />
                   <div className="flex flex-col">
-                    <span className="text-[7px] font-black text-gray-400 uppercase tracking-wider">Ngày đến hạn</span>
-                    <span className="text-[10px] font-black text-black">{contract.date}</span>
+                    <span className="text-[6px] font-black text-gray-400 uppercase tracking-wider">Ngày đến hạn</span>
+                    <span className="text-[9px] font-black text-black">{contract.date}</span>
                   </div>
                 </div>
-                <div className="bg-green-100 text-green-700 px-2.5 py-1 rounded text-[9px] font-black uppercase tracking-tighter">Lãi suất: 0%</div>
+                <div className="bg-green-100 text-green-700 px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-tighter">Lãi suất: 0%</div>
               </div>
             </section>
 
             {/* Điều 4: Cam kết & Chế tài */}
-            <section className="space-y-1.5 flex-none">
-              <div className="flex items-center gap-1.5">
-                <div className="w-4 h-4 bg-red-600 rounded flex items-center justify-center text-white font-black text-[7px]">04</div>
-                <h4 className="text-[10px] font-black text-red-600 uppercase tracking-widest">Cam kết & Chế tài</h4>
+            <section className="space-y-1 flex-none">
+              <div className="flex items-center gap-1">
+                <div className="w-3.5 h-3.5 bg-red-600 rounded flex items-center justify-center text-white font-black text-[7px]">04</div>
+                <h4 className="text-[9px] font-black text-red-600 uppercase tracking-widest">Cam kết & Chế tài</h4>
               </div>
-              <div className="bg-red-50/50 border border-red-100 rounded-lg p-2.5 shadow-sm">
-                <p className="text-[9px] font-bold text-gray-700 leading-relaxed">
+              <div className="bg-red-50/50 border border-red-100 rounded-lg p-2 shadow-sm">
+                <p className="text-[8px] font-bold text-gray-700 leading-tight">
                   Bên B cam kết thanh toán đúng hạn.<br />
-                  Phí phạt chậm trả <span className="text-red-600 font-black">0.1%/ngày</span> (không quá 30% giá trị khoản vay).<br />
+                  Phí phạt chậm trả <span className="text-red-600 font-black">0.1%/ngày</span>.<br />
                   Hợp đồng có giá trị pháp lý ngay sau khi ký số.
                 </p>
               </div>
