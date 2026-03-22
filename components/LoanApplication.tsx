@@ -1128,7 +1128,7 @@ const LoanApplication: React.FC<LoanApplicationProps> = ({ user, loans, systemBu
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 p-3 bg-black flex gap-2 z-[110] border-t border-white/5 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] flex-none">
+      <div className="sticky bottom-0 left-0 right-0 p-3 bg-black flex gap-2 z-[110] border-t border-white/5 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] mt-auto">
         <button 
           onClick={() => setStep(LoanStep.SELECT_AMOUNT)}
           className="flex-1 py-3.5 rounded-xl border border-white/10 text-white font-black text-[9px] uppercase tracking-widest active:scale-95 transition-all"

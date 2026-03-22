@@ -53,7 +53,7 @@ const Profile: React.FC<ProfileProps> = ({ user, onBack, onLogout, onUpdateBank,
   };
 
   return (
-    <div className="w-full bg-black px-5 space-y-6 animate-in fade-in duration-500">
+    <div className="w-full bg-black px-5 pb-10 space-y-6 animate-in fade-in duration-500">
       {/* Header Logo for Profile View with X Button */}
       <div className="w-full py-3 flex items-center justify-between bg-black z-50">
         <div className="flex items-center gap-2.5">

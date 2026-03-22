@@ -21,7 +21,7 @@ const ContractWarehouse: React.FC<ContractWarehouseProps> = ({ user }) => {
   const contracts: Contract[] = [];
 
   return (
-    <div className="w-full bg-black px-5 pb-24 space-y-5 animate-in fade-in duration-500">
+    <div className="w-full bg-black px-5 pb-10 space-y-5 animate-in fade-in duration-500">
       <div className="px-1 pt-3">
         <h2 className="text-xl font-black text-white tracking-tighter uppercase">Kho Hợp Đồng</h2>
       </div>

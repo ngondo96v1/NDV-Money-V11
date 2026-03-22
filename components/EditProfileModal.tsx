@@ -32,23 +32,23 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ user, onClose, onUp
   };
 
   return (
-    <div className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-300">
-      <div className="bg-[#111111] w-full max-w-md rounded-[3rem] p-8 space-y-8 relative shadow-2xl border border-white/5 max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-[#ff8c00]/10 rounded-xl flex items-center justify-center text-[#ff8c00]">
-              <UserIcon size={20} />
-            </div>
-            <h3 className="text-xl font-black text-white uppercase tracking-tighter">Chỉnh sửa thông tin</h3>
+    <div className="fixed inset-0 z-[2000] bg-black flex flex-col h-[100dvh] max-w-md mx-auto animate-in fade-in duration-300 overflow-hidden">
+      <div className="p-6 border-b border-white/5 flex items-center justify-between shrink-0 pt-8">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-[#ff8c00]/10 rounded-xl flex items-center justify-center text-[#ff8c00]">
+            <UserIcon size={20} />
           </div>
-          <button 
-            onClick={onClose}
-            className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center text-gray-500 hover:text-white transition-all"
-          >
-            <X size={20} />
-          </button>
+          <h3 className="text-xl font-black text-white uppercase tracking-tighter">Chỉnh sửa thông tin</h3>
         </div>
+        <button 
+          onClick={onClose}
+          className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center text-gray-500 hover:text-white transition-all"
+        >
+          <X size={20} />
+        </button>
+      </div>
 
+      <div className="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar">
         <div className="space-y-6">
           <div className="space-y-2">
             <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-4">Họ và tên</label>
@@ -61,7 +61,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ user, onClose, onUp
                 value={fullName}
                 readOnly
                 placeholder="Nhập họ tên đầy đủ..."
-                className="w-full bg-black/50 border border-white/5 rounded-2xl py-4 pl-14 pr-6 text-sm font-bold text-gray-500 cursor-not-allowed focus:outline-none transition-all"
+                className="w-full bg-black/50 border border-white/5 rounded-2xl py-4.5 pl-14 pr-6 text-sm font-bold text-gray-500 cursor-not-allowed focus:outline-none transition-all"
               />
             </div>
           </div>
@@ -77,7 +77,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ user, onClose, onUp
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 placeholder="Nhập địa chỉ của bạn..."
-                className="w-full bg-black border border-white/5 rounded-2xl py-4 pl-14 pr-6 text-sm font-bold text-white placeholder-gray-800 focus:outline-none focus:border-[#ff8c00]/30 transition-all"
+                className="w-full bg-black border border-white/5 rounded-2xl py-4.5 pl-14 pr-6 text-sm font-bold text-white placeholder-gray-800 focus:outline-none focus:border-[#ff8c00]/30 transition-all"
               />
             </div>
           </div>
@@ -93,7 +93,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ user, onClose, onUp
                 value={idNumber}
                 onChange={(e) => setIdNumber(e.target.value)}
                 placeholder="Nhập số CCCD..."
-                className="w-full bg-black border border-white/5 rounded-2xl py-4 pl-14 pr-6 text-sm font-bold text-white placeholder-gray-800 focus:outline-none focus:border-[#ff8c00]/30 transition-all"
+                className="w-full bg-black border border-white/5 rounded-2xl py-4.5 pl-14 pr-6 text-sm font-bold text-white placeholder-gray-800 focus:outline-none focus:border-[#ff8c00]/30 transition-all"
               />
             </div>
           </div>
@@ -106,7 +106,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ user, onClose, onUp
                 value={refZalo}
                 onChange={(e) => setRefZalo(e.target.value)}
                 placeholder="Số điện thoại..."
-                className="w-full bg-black border border-white/5 rounded-2xl py-4 px-6 text-sm font-bold text-white placeholder-gray-800 focus:outline-none focus:border-[#ff8c00]/30 transition-all"
+                className="w-full bg-black border border-white/5 rounded-2xl py-4.5 px-6 text-sm font-bold text-white placeholder-gray-800 focus:outline-none focus:border-[#ff8c00]/30 transition-all"
               />
             </div>
             <div className="space-y-2">
@@ -116,26 +116,26 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ user, onClose, onUp
                 value={relationship}
                 onChange={(e) => setRelationship(e.target.value)}
                 placeholder="VD: Anh, Chị..."
-                className="w-full bg-black border border-white/5 rounded-2xl py-4 px-6 text-sm font-bold text-white placeholder-gray-800 focus:outline-none focus:border-[#ff8c00]/30 transition-all"
+                className="w-full bg-black border border-white/5 rounded-2xl py-4.5 px-6 text-sm font-bold text-white placeholder-gray-800 focus:outline-none focus:border-[#ff8c00]/30 transition-all"
               />
             </div>
           </div>
         </div>
+      </div>
 
-        <div className="flex gap-3 pt-4">
-          <button 
-            onClick={onClose}
-            className="flex-1 py-5 bg-white/5 border border-white/10 rounded-[2rem] text-gray-500 font-black text-[10px] uppercase tracking-widest active:scale-95 transition-all"
-          >
-            Hủy bỏ
-          </button>
-          <button 
-            onClick={handleSave}
-            className="flex-[1.5] py-5 bg-[#ff8c00] rounded-[2rem] text-black font-black text-[10px] uppercase tracking-widest active:scale-95 transition-all shadow-xl shadow-orange-950/20 flex items-center justify-center gap-2"
-          >
-            <Save size={16} /> Lưu thay đổi
-          </button>
-        </div>
+      <div className="p-6 border-t border-white/5 shrink-0 bg-black pb-8 flex gap-3">
+        <button 
+          onClick={onClose}
+          className="flex-1 py-4.5 bg-white/5 border border-white/10 rounded-2xl text-gray-500 font-black text-[10px] uppercase tracking-widest active:scale-95 transition-all"
+        >
+          Hủy bỏ
+        </button>
+        <button 
+          onClick={handleSave}
+          className="flex-[1.5] py-4.5 bg-[#ff8c00] rounded-2xl text-black font-black text-[10px] uppercase tracking-widest active:scale-95 transition-all shadow-xl shadow-orange-950/20 flex items-center justify-center gap-2"
+        >
+          <Save size={16} /> Lưu thay đổi
+        </button>
       </div>
     </div>
   );

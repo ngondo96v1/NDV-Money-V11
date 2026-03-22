@@ -42,7 +42,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-black flex flex-col items-center justify-center p-8 text-center">
+        <div className="h-[100dvh] bg-black flex flex-col items-center justify-center p-8 text-center">
           <AlertTriangle size={48} className="text-[#ff8c00] mb-4" />
           <h2 className="text-xl font-black uppercase mb-2 text-white">Hệ thống đang bảo trì</h2>
           <p className="text-xs text-gray-500 mb-6 uppercase">Đã xảy ra lỗi khởi tạo. Vui lòng tải lại trang.</p>
@@ -1842,7 +1842,7 @@ const App: React.FC = () => {
 
   if (!isInitialized) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="h-[100dvh] bg-black flex items-center justify-center">
         <div className="w-8 h-8 border-4 border-[#ff8c00] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
@@ -1876,9 +1876,10 @@ const App: React.FC = () => {
           </div>
         )}
 
-        <div className={`flex-1 overflow-y-auto scroll-smooth ${showNavbar ? 'pb-24' : ''}`}>
+        <div className="flex-1 overflow-y-auto scroll-smooth relative">
           {renderView()}
         </div>
+
         {dbError && (
           <DatabaseErrorModal 
             error={dbError} 
@@ -1896,7 +1897,7 @@ const App: React.FC = () => {
           }} />
         )}
         {showNavbar && (
-          <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#111111]/95 backdrop-blur-xl border-t border-white/10 px-4 py-4 flex justify-between items-center z-[50] safe-area-bottom">
+          <div className="bg-[#111111]/95 backdrop-blur-xl border-t border-white/10 px-4 py-4 flex justify-between items-center z-[50] safe-area-bottom flex-none">
             {user?.isAdmin ? (
               <>
                 <button onClick={() => setCurrentView(AppView.ADMIN_DASHBOARD)} className={`flex flex-col items-center gap-1 flex-1 ${currentView === AppView.ADMIN_DASHBOARD ? 'text-[#ff8c00]' : 'text-gray-500'}`}><LayoutGrid size={22} /><span className="text-[7px] font-black uppercase tracking-widest">Tổng quan</span></button>

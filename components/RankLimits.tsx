@@ -173,7 +173,7 @@ const RankLimits: React.FC<RankLimitsProps> = ({ user, isGlobalProcessing, onBac
     const qrUrl = `https://img.vietqr.io/image/970454-0877203996-compact2.png?amount=${fee}&addInfo=${encodeURIComponent(transferContent)}&accountName=${encodeURIComponent('DO TRUNG NGON')}`;
 
     return (
-      <div className="w-full h-full bg-black animate-in slide-in-from-right duration-300 flex flex-col p-5 overflow-y-auto pb-24 relative">
+      <div className="w-full h-full bg-black animate-in slide-in-from-right duration-300 flex flex-col p-5 overflow-y-auto pb-10 relative">
         {copyToast && (
           <div className="fixed top-8 left-1/2 -translate-x-1/2 z-[1000] animate-in fade-in slide-in-from-top-4 duration-300">
             <div className="bg-green-600 text-white px-5 py-2.5 rounded-full font-black text-[9px] uppercase tracking-widest shadow-2xl flex items-center gap-2">

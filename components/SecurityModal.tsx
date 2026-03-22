@@ -93,8 +93,8 @@ const SecurityModal: React.FC<SecurityModalProps> = ({ user, onClose, onLogout, 
   }
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-black animate-in fade-in slide-in-from-bottom-5 duration-500 flex flex-col px-6 pt-4 pb-24 max-w-md mx-auto">
-      <div className="flex items-center justify-between mb-6 mt-2">
+    <div className="fixed inset-0 z-[9999] bg-black animate-in fade-in slide-in-from-bottom-5 duration-500 flex flex-col px-6 pt-4 pb-8 max-w-md mx-auto h-[100dvh] overflow-hidden">
+      <div className="flex items-center justify-between mb-8 mt-4 shrink-0">
         <h2 className="text-2xl font-black text-[#ff8c00] tracking-widest uppercase">Bảo mật</h2>
         <button 
           onClick={onClose}
@@ -104,10 +104,10 @@ const SecurityModal: React.FC<SecurityModalProps> = ({ user, onClose, onLogout, 
         </button>
       </div>
 
-      <div className="space-y-4 flex-1">
+      <div className="space-y-6 flex-1 overflow-y-auto custom-scrollbar pr-1">
         {/* Old Password */}
-        <div className="space-y-1.5 relative">
-          <label className="text-[9px] font-black text-gray-500 uppercase tracking-widest ml-1">Mật khẩu hiện tại</label>
+        <div className="space-y-2.5 relative">
+          <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Mật khẩu hiện tại</label>
           <div className="relative">
             <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600">
               <Lock size={18} />
@@ -117,7 +117,7 @@ const SecurityModal: React.FC<SecurityModalProps> = ({ user, onClose, onLogout, 
               placeholder="........"
               value={oldPassword}
               onChange={(e) => setOldPassword(e.target.value)}
-              className={`w-full bg-[#16161a] border rounded-2xl py-4 pl-14 pr-6 text-sm font-bold text-white placeholder-gray-700 focus:outline-none transition-all ${
+              className={`w-full bg-[#16161a] border rounded-2xl py-4.5 pl-14 pr-6 text-sm font-bold text-white placeholder-gray-700 focus:outline-none transition-all ${
                 tooltips.old ? 'border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.1)]' : 'border-white/5 focus:border-[#ff8c00]/30'
               }`}
             />
@@ -134,8 +134,8 @@ const SecurityModal: React.FC<SecurityModalProps> = ({ user, onClose, onLogout, 
         </div>
 
         {/* New Password */}
-        <div className="space-y-1.5 relative">
-          <label className="text-[9px] font-black text-gray-500 uppercase tracking-widest ml-1">Mật khẩu mới</label>
+        <div className="space-y-2.5 relative">
+          <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Mật khẩu mới</label>
           <div className="relative">
             <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600">
               <Lock size={18} />
@@ -145,7 +145,7 @@ const SecurityModal: React.FC<SecurityModalProps> = ({ user, onClose, onLogout, 
               placeholder="Tối thiểu 6 ký tự"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
-              className={`w-full bg-[#16161a] border rounded-2xl py-4 pl-14 pr-6 text-sm font-bold text-white placeholder-gray-700 focus:outline-none transition-all ${
+              className={`w-full bg-[#16161a] border rounded-2xl py-4.5 pl-14 pr-6 text-sm font-bold text-white placeholder-gray-700 focus:outline-none transition-all ${
                 tooltips.new ? 'border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.1)]' : 'border-white/5 focus:border-[#ff8c00]/30'
               }`}
             />
@@ -162,8 +162,8 @@ const SecurityModal: React.FC<SecurityModalProps> = ({ user, onClose, onLogout, 
         </div>
 
         {/* Confirm Password */}
-        <div className="space-y-1.5 relative">
-          <label className="text-[9px] font-black text-gray-500 uppercase tracking-widest ml-1">Xác nhận mật khẩu</label>
+        <div className="space-y-2.5 relative">
+          <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Xác nhận mật khẩu</label>
           <div className="relative">
             <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600">
               <Lock size={18} />
@@ -173,7 +173,7 @@ const SecurityModal: React.FC<SecurityModalProps> = ({ user, onClose, onLogout, 
               placeholder="Nhập lại mật khẩu"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className={`w-full bg-[#16161a] border rounded-2xl py-4 pl-14 pr-6 text-sm font-bold text-white placeholder-gray-700 focus:outline-none transition-all ${
+              className={`w-full bg-[#16161a] border rounded-2xl py-4.5 pl-14 pr-6 text-sm font-bold text-white placeholder-gray-700 focus:outline-none transition-all ${
                 tooltips.confirm ? 'border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.1)]' : 'border-white/5 focus:border-[#ff8c00]/30'
               }`}
             />
@@ -190,12 +190,14 @@ const SecurityModal: React.FC<SecurityModalProps> = ({ user, onClose, onLogout, 
         </div>
       </div>
 
-      <button 
-        onClick={handleSaveChanges}
-        className="w-full bg-[#ff8c00] text-black font-black py-4.5 rounded-2xl text-sm uppercase tracking-widest shadow-xl active:scale-95 transition-all shadow-orange-900/20"
-      >
-        Lưu thay đổi
-      </button>
+      <div className="pt-6 shrink-0 pb-4">
+        <button 
+          onClick={handleSaveChanges}
+          className="w-full bg-[#ff8c00] text-black font-black py-5 rounded-2xl text-sm uppercase tracking-widest shadow-xl active:scale-95 transition-all shadow-orange-900/20"
+        >
+          Lưu thay đổi
+        </button>
+      </div>
     </div>
   );
 };

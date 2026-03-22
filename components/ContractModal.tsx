@@ -159,7 +159,7 @@ const ContractModal: React.FC<ContractModalProps> = ({ contract, user, onClose }
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 p-3 bg-black flex gap-2 z-[110] border-t border-white/5 flex-none">
+      <div className="sticky bottom-0 left-0 right-0 p-3 bg-black flex gap-2 z-[110] border-t border-white/5 mt-auto">
         <button className="flex-1 py-3.5 rounded-xl border border-white/10 text-white font-black text-[9px] uppercase tracking-widest flex items-center justify-center gap-2 active:scale-95 transition-all bg-white/5">
           <Download size={14} />
           Bản gốc

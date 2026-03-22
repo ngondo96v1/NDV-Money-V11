@@ -16,7 +16,7 @@ interface AdminLogsProps {
 
 const AdminLogs: React.FC<AdminLogsProps> = ({ logs, onBack }) => {
   return (
-    <div className="w-full bg-black px-5 pb-24 animate-in fade-in duration-500">
+    <div className="w-full bg-black px-5 pb-10 animate-in fade-in duration-500">
       <div className="flex items-center justify-between pt-8 mb-6 px-1">
         <div className="flex items-center gap-3">
           <button 

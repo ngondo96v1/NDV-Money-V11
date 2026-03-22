@@ -123,7 +123,7 @@ const AdminSystem: React.FC<AdminSystemProps> = ({ onReset, onImportSuccess, onB
   };
 
   return (
-    <div className="w-full bg-black px-5 pb-24 animate-in fade-in duration-500">
+    <div className="w-full bg-black px-5 pb-10 animate-in fade-in duration-500">
       {/* Header Area */}
       <div className="flex items-center justify-between pt-8 mb-6 px-1">
         <h1 className="text-xl font-black text-white uppercase tracking-tighter leading-none">

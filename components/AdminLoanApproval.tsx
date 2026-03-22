@@ -102,7 +102,7 @@ const AdminLoanApproval: React.FC<AdminLoanApprovalProps> = ({ loans, isGlobalPr
   };
 
   return (
-    <div className="w-full bg-black min-h-screen px-5 pb-24 animate-in fade-in duration-500">
+    <div className="w-full bg-black px-5 pb-6 animate-in fade-in duration-500">
       <div className="flex items-center gap-3 pt-8 mb-6">
         <button onClick={onBack} className="text-white bg-white/5 p-1.5 rounded-full active:scale-90 transition-all">
           <ChevronLeft size={18} />
