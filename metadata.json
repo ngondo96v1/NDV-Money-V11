@@ -1,0 +1,7 @@
+{
+  "name": "NDV Money V12",
+  "description": "NDV123",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
